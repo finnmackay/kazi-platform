@@ -1,4 +1,4 @@
-import { categoryImage, products } from "@/lib/products";
+import { products } from "@/lib/products";
 
 // Default SEO for every code-defined public page. /admin can override the title,
 // description, social image and indexing per path (stored in the seo_pages table); anything
@@ -71,7 +71,7 @@ export const SEO_ROUTES = [
     group: "Main pages",
     title: "The Collection",
     description:
-      "Ready-to-order styles across knitwear, outerwear, denim, accessories and footwear, built to the same spec as a custom manufacturing run.",
+      "Ready-to-order styles across knitwear, outerwear, bottoms, accessories and footwear, built to the same spec as a custom manufacturing run.",
     changeFrequency: "weekly",
     priority: 0.8,
   },
@@ -81,7 +81,7 @@ export const SEO_ROUTES = [
     group: "Main pages",
     title: "Lookbook",
     description:
-      "Fabric, fit and finish by category — knitwear, outerwear, denim, accessories and footwear from the Kazi production floor.",
+      "Fabric, fit and finish by category — knitwear, outerwear, bottoms, accessories and footwear from the Kazi production floor.",
     changeFrequency: "monthly",
     priority: 0.6,
   },
@@ -139,7 +139,7 @@ export const PRODUCT_ROUTES = products.map((product) => ({
   group: "Products",
   title: product.name,
   description: product.description,
-  image: categoryImage(product.category),
+  image: product.image,
   changeFrequency: "weekly",
   priority: 0.7,
 }));

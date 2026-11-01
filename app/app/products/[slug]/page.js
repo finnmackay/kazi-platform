@@ -1,5 +1,5 @@
 import { ProductPage } from "@/components/ProductPage";
-import { categoryImage, products } from "@/lib/products";
+import { products } from "@/lib/products";
 import { SITE_URL } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -23,7 +23,7 @@ function productJsonLd(product) {
     name: product.name,
     description: product.description,
     category: product.category,
-    image: `${SITE_URL}${categoryImage(product.category)}`,
+    image: `${SITE_URL}${product.image}`,
     offers: {
       "@type": "Offer",
       priceCurrency: "GBP",

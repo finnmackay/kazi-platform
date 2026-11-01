@@ -1,14 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { categoryImage } from "@/lib/products";
 
-/** Shared card for /collections' grid, the homepage collection section, and a product page's "related" row. */
+/** Shared card for /collections' grid and a product page's "related" row. */
 export function ProductCard({ product }) {
   return (
     <Link href={`/products/${product.slug}`} className="group block">
       <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-paper-raised">
         <Image
-          src={categoryImage(product.category)}
+          src={product.image}
           alt={`${product.name} product shot`}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"

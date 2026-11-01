@@ -11,24 +11,23 @@
 // than invented per product, so every "Customize in the Atelier" deep link resolves to a
 // real, selectable colour instead of snapping to the nearest one.
 //
-// No per-product photography exists yet, so every product borrows its category's shared
-// placeholder photo via `categoryImage()` below rather than pointing at image files that
-// don't exist.
+// Every product has its own `image`: a white-label product photo (a blank white product
+// carrying the Kazi logo) in public/images/collections/white-label/ — 3:4 portraits, 1200x1600
+// WebP copies of the originals supplied as "..._2K.jpg" downloads. One product per photo, so no
+// two products share a picture. Footwear is the exception: no photo was supplied for it yet, so
+// the trainer uses a generated illustration (a square image; replace footwear.webp with a 3:4
+// photo and nothing else needs to change). To add a product, drop its photo in that folder and
+// add an entry here.
 
-export const CATEGORIES = ["Knitwear", "Outerwear", "Denim", "Accessories", "Footwear"];
+export const CATEGORIES = ["Knitwear", "Outerwear", "Bottoms", "Accessories", "Footwear"];
 
 export const SIZES = ["S", "M", "L", "XL"];
 
-const CATEGORY_IMAGE = {
-  Knitwear: "collection-knitwear.jpg",
-  Outerwear: "collection-outerwear.jpg",
-  Denim: "collection-denim.jpg",
-  Accessories: "collection-accessories.jpg",
-  Footwear: "collection-footwear.jpg",
-};
+const WHITE_LABEL_DIR = "/images/collections/white-label";
 
-export function categoryImage(category) {
-  return `/images/collections/${CATEGORY_IMAGE[category]}`;
+/** A white-label photo by file name, e.g. whiteLabelPhoto("vest"). */
+export function whiteLabelPhoto(name) {
+  return `${WHITE_LABEL_DIR}/${name}.webp`;
 }
 
 export const products = [
@@ -37,6 +36,7 @@ export const products = [
     name: "Organic Crew Tee",
     category: "Knitwear",
     garmentModel: "t-shirt",
+    image: whiteLabelPhoto("tshirt"),
     price: "From £3.20 / unit",
     moq: 50,
     colors: [
@@ -62,31 +62,32 @@ export const products = [
     ],
   },
   {
-    slug: "dropshoulder-tee",
-    name: "Dropshoulder Tee",
+    slug: "long-sleeve-tee",
+    name: "Long-Sleeve Tee",
     category: "Knitwear",
-    garmentModel: "t-shirt",
-    price: "From £4.00 / unit",
+    image: whiteLabelPhoto("long-sleeve"),
+    price: "From £4.80 / unit",
     moq: 50,
     colors: [
-      { name: "Pine", hex: "#1B3A2B" },
-      { name: "Sand", hex: "#B8A898" },
-      { name: "Espresso", hex: "#3D2B1F" },
+      { name: "White", hex: "#FFFFFF" },
+      { name: "Oat", hex: "#E8E0D0" },
+      { name: "Stone", hex: "#6B6560" },
+      { name: "Black", hex: "#1A1A1A" },
     ],
     sizes: SIZES,
     description:
-      "An oversized drape with a dropped shoulder seam, cut from a heavier knit for a relaxed, structured silhouette.",
+      "The crew-neck tee with sleeves — mid-weight organic cotton jersey with ribbed cuffs, a layering staple that carries a left-chest print or a full back graphic equally well.",
     specs: [
-      "Relaxed drop-shoulder sleeves",
-      "Wide neck band detail",
-      "Heavier 220 gsm knit structure",
-      "Slightly boxy hemline",
+      "Classic crew neck cut",
+      "Ribbed cuffs",
+      "Reinforced shoulder-to-shoulder taping",
+      "Double-needle stitched hems",
     ],
     sustainability: [
-      "Premium long-staple cotton",
-      "220 gsm heavyweight structure",
-      "Mineral-washed finish, no harsh chemical softening",
-      "Fair-wage production in Kathmandu",
+      "GOTS-certified organic cotton available",
+      "180 gsm mid-weight knit",
+      "Low-impact, non-toxic dyes",
+      "Produced in our Kathmandu workspace",
     ],
   },
   {
@@ -94,6 +95,7 @@ export const products = [
     name: "Essential Hoodie",
     category: "Outerwear",
     garmentModel: "hoodie",
+    image: whiteLabelPhoto("hoodie"),
     price: "From £8.50 / unit",
     moq: 50,
     colors: [
@@ -119,88 +121,68 @@ export const products = [
     ],
   },
   {
-    slug: "quarter-zip-fleece",
-    name: "Quarter-Zip Fleece",
+    slug: "utility-vest",
+    name: "Utility Vest",
     category: "Outerwear",
-    price: "From £9.50 / unit",
+    image: whiteLabelPhoto("vest"),
+    price: "From £14.50 / unit",
     moq: 50,
     colors: [
+      { name: "Oat", hex: "#E8E0D0" },
       { name: "Stone", hex: "#6B6560" },
-      { name: "Sand", hex: "#B8A898" },
+      { name: "Black", hex: "#1A1A1A" },
       { name: "Pine", hex: "#1B3A2B" },
     ],
     sizes: SIZES,
     description:
-      "A stand-collar pullover with a quarter-zip closure — warm layering piece with a cleaner line than a full hoodie.",
+      "A structured sleeveless layer in cotton canvas — stand collar, zip-and-snap front and big flap pockets — made for workwear, field and studio ranges that need a brand mark on the chest.",
     specs: [
-      "Stand collar design",
-      "Quarter-zip closure",
-      "Elasticated cuffs",
-      "Concealed side pockets",
+      "Stand collar with zip-and-snap front",
+      "Two large lower flap pockets",
+      "Zip chest pocket",
+      "Heavyweight cotton canvas shell",
     ],
     sustainability: [
-      "Recycled polyester / organic cotton blend fleece",
-      "Solar-powered knitting mill production",
-      "Recycled hardware",
-      "Transparent production path",
-    ],
-  },
-  {
-    slug: "straight-leg-jean",
-    name: "Straight-Leg Jean",
-    category: "Denim",
-    price: "From £11.00 / unit",
-    moq: 50,
-    colors: [
-      { name: "Espresso", hex: "#3D2B1F" },
-      { name: "Black", hex: "#1A1A1A" },
-    ],
-    sizes: SIZES,
-    description:
-      "A straight-cut five-pocket jean in mid-weight denim, garment-washed to hold its shape through repeat wear.",
-    specs: [
-      "Five-pocket construction",
-      "Mid-weight, garment-dyed denim",
-      "Reinforced belt loops and rivets",
-      "Straight leg, mid-rise fit",
-    ],
-    sustainability: [
-      "Low-water wash process available",
-      "Zero-waste pattern cutting",
-      "Metal trims sourced from recycled stock",
+      "Organic cotton canvas available",
+      "Garment-dyed in small batches",
+      "Hardware from recycled stock",
       "Produced in our Kathmandu workspace",
     ],
   },
   {
-    slug: "denim-overshirt",
-    name: "Denim Overshirt",
-    category: "Denim",
-    price: "From £13.50 / unit",
+    slug: "jogger-pants",
+    name: "Jogger Pants",
+    category: "Bottoms",
+    image: whiteLabelPhoto("pants"),
+    price: "From £9.80 / unit",
     moq: 50,
     colors: [
+      { name: "Oat", hex: "#E8E0D0" },
       { name: "Stone", hex: "#6B6560" },
-      { name: "Espresso", hex: "#3D2B1F" },
+      { name: "Black", hex: "#1A1A1A" },
+      { name: "Pine", hex: "#1B3A2B" },
     ],
     sizes: SIZES,
     description:
-      "A structured overshirt in washed denim, cut boxy enough to layer, with a chest pocket and button-through front.",
+      "Relaxed joggers in brushed loopback fleece — an elasticated drawstring waist, side pockets and ribbed cuffs, with room on the thigh for a print or embroidery.",
     specs: [
-      "Button-through front",
-      "Twin chest pockets",
-      "Boxy, layer-ready fit",
-      "Reinforced yoke seam",
+      "Elasticated waist with flat drawstring",
+      "Side pockets",
+      "Ribbed ankle cuffs",
+      "Brushed-back loopback fleece",
     ],
     sustainability: [
-      "Garment-washed with reduced water usage",
-      "Zero-waste cutting pattern",
-      "Fair-wage workshop production",
-      "Recycled button hardware",
+      "Organic cotton fleece available",
+      "320 gsm mid-heavyweight knit",
+      "Low-impact, non-toxic dyes",
+      "Produced in our Kathmandu workspace",
     ],
   },
   {
     slug: "canvas-tote",
     name: "Canvas Tote",
     category: "Accessories",
+    image: whiteLabelPhoto("tote"),
     price: "From £3.80 / unit",
     moq: 50,
     colors: [
@@ -223,35 +205,38 @@ export const products = [
     ],
   },
   {
-    slug: "utility-cap",
-    name: "Utility Cap",
+    slug: "work-apron",
+    name: "Work Apron",
     category: "Accessories",
-    price: "From £4.50 / unit",
+    image: whiteLabelPhoto("apron"),
+    price: "From £5.20 / unit",
     moq: 50,
     colors: [
-      { name: "Stone", hex: "#6B6560" },
-      { name: "Pine", hex: "#1B3A2B" },
+      { name: "Oat", hex: "#E8E0D0" },
       { name: "Black", hex: "#1A1A1A" },
+      { name: "Pine", hex: "#1B3A2B" },
     ],
+    // No `sizes` — one size, with an adjustable neck strap and long waist ties.
     description:
-      "A structured six-panel cap in brushed cotton twill, with an adjustable strap back for a consistent fit across a run.",
+      "A hard-wearing bib apron in cotton twill — adjustable neck strap, long waist ties and a generous bib that shows off a printed or embroidered logo.",
     specs: [
-      "Structured six-panel construction",
-      "Brushed cotton twill",
-      "Adjustable strap back",
-      "Embroidery-ready front panel",
+      "Mid-weight cotton twill",
+      "Adjustable neck strap with buckle",
+      "Long waist ties",
+      "One size fits most",
     ],
     sustainability: [
       "Organic cotton twill available",
-      "Metal-free strap hardware option",
-      "Produced in our Kathmandu workspace",
       "Low-impact dye process",
+      "Zero-waste panel cutting",
+      "Produced in our Kathmandu workspace",
     ],
   },
   {
     slug: "canvas-trainer",
     name: "Canvas Trainer",
     category: "Footwear",
+    image: whiteLabelPhoto("footwear"),
     price: "From £14.00 / unit",
     moq: 50,
     colors: [
@@ -275,37 +260,16 @@ export const products = [
       "Repairable, re-solable construction",
     ],
   },
-  {
-    slug: "espadrille-slip-on",
-    name: "Espadrille Slip-On",
-    category: "Footwear",
-    price: "From £12.50 / unit",
-    moq: 50,
-    colors: [
-      { name: "Oat", hex: "#E8E0D0" },
-      { name: "Espresso", hex: "#3D2B1F" },
-    ],
-    description:
-      "A slip-on with a woven jute sole and canvas upper — a lightweight warm-weather piece for a summer-facing range.",
-    specs: [
-      "Woven jute sole",
-      "Cotton canvas upper",
-      "Slip-on construction, no laces",
-      "Hand-finished edge binding",
-    ],
-    sustainability: [
-      "Natural jute sole",
-      "Undyed canvas option",
-      "Hand-finished by Kathmandu artisans",
-      "Biodegradable core materials",
-    ],
-  },
 ];
 
 export function getProductBySlug(slug) {
   return products.find((p) => p.slug === slug);
 }
 
+/** Same-category products first, then the rest of the range, so every product page has a row. */
 export function getRelatedProducts(product, limit = 4) {
-  return products.filter((p) => p.slug !== product.slug && p.category === product.category).slice(0, limit);
+  const others = products.filter((p) => p.slug !== product.slug);
+  const sameCategory = others.filter((p) => p.category === product.category);
+  const rest = others.filter((p) => p.category !== product.category);
+  return [...sameCategory, ...rest].slice(0, limit);
 }

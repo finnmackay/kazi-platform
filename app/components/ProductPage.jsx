@@ -6,7 +6,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { ArrowLeft, ArrowRight, Box, Check, ChevronDown, ChevronUp, Image as ImageIcon, ShoppingBag } from "lucide-react";
 import QtyStepper from "@/components/Atelier/QtyStepper";
-import { getProductBySlug, getRelatedProducts, categoryImage } from "@/lib/products";
+import { getProductBySlug, getRelatedProducts } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
 import { useCart } from "@/lib/cart-context";
 
@@ -76,7 +76,7 @@ export function ProductPage({ slug }) {
         id: `${product.slug}-${activeColor?.name ?? "default"}-${size ?? ""}`,
         slug: product.slug,
         name: product.name,
-        image: categoryImage(product.category),
+        image: product.image,
         price: product.price,
         color: activeColor?.name,
         size: size ?? undefined,
@@ -125,7 +125,7 @@ export function ProductPage({ slug }) {
 
             {viewMode === "image" || !product.garmentModel ? (
               <Image
-                src={categoryImage(product.category)}
+                src={product.image}
                 alt={product.name}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"

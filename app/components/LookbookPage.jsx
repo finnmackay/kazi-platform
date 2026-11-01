@@ -3,25 +3,69 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { categoryImage } from "@/lib/products";
+import { whiteLabelPhoto } from "@/lib/products";
 
 const filledButton =
   "inline-flex h-11 items-center justify-center rounded-sm btn-gradient px-6 font-body text-sm font-semibold tracking-wide text-bone";
 const outlineButton =
   "inline-flex h-11 items-center justify-center rounded-sm border border-pine px-6 font-body text-sm font-semibold tracking-wide text-pine transition-colors hover:bg-pine hover:text-bone";
 
-// Only one photo per category exists today (the same set the homepage Collection section and
-// /collections use) — a real lookbook needs several per category to read as a gallery rather
-// than this set repeated with padding. Add more entries per category once photography exists.
+// The white-label photos from public/images/collections/white-label/ (see lib/products.js): all
+// 3:4 portraits, with more than one for a category where there is more than one product shot.
+// Footwear is the exception: no photo was supplied yet, so it uses the generated illustration.
+// Add an entry here when a new photo is dropped into that folder.
 const GALLERY = [
-  { category: "Knitwear", caption: "Jersey, rib and cable-knit, cut and finished to spec.", tall: true },
-  { category: "Outerwear", caption: "Shells, quilted jackets and technical layers." },
-  { category: "Denim", caption: "Washed, raw and garment-dyed, made to hold shape.", tall: true },
-  { category: "Accessories", caption: "Bags, caps and small leather goods." },
-  { category: "Footwear", caption: "Canvas and leather uppers, hand-lasted.", tall: true },
+  {
+    category: "Knitwear",
+    image: whiteLabelPhoto("tshirt"),
+    alt: "A white T-shirt with a small Kazi logo on the chest",
+    caption: "Jersey, rib and cable-knit, cut and finished to spec.",
+  },
+  {
+    category: "Knitwear",
+    image: whiteLabelPhoto("long-sleeve"),
+    alt: "A white long-sleeve T-shirt with a small Kazi logo on the chest",
+    caption: "Long-sleeve jersey, printed or embroidered to your artwork.",
+  },
+  {
+    category: "Outerwear",
+    image: whiteLabelPhoto("hoodie"),
+    alt: "A white hoodie with a large Kazi logo on the chest",
+    caption: "Hoodies, shells and technical layers.",
+  },
+  {
+    category: "Outerwear",
+    image: whiteLabelPhoto("vest"),
+    alt: "A cream utility vest with zips and flap pockets, with a Kazi logo on the chest",
+    caption: "Utility vests with zips and flap pockets.",
+  },
+  {
+    category: "Bottoms",
+    image: whiteLabelPhoto("pants"),
+    alt: "Cream jogger pants with a Kazi logo on the thigh",
+    caption: "Joggers, pants and denim, cut and finished to hold their shape.",
+  },
+  {
+    category: "Accessories",
+    image: whiteLabelPhoto("tote"),
+    alt: "A canvas tote bag with a large Kazi logo, hanging on a wooden peg",
+    caption: "Bags, caps and small leather goods.",
+  },
+  {
+    category: "Accessories",
+    image: whiteLabelPhoto("apron"),
+    alt: "A white apron with a Kazi logo on the bib, hanging on a wooden peg",
+    caption: "Aprons and workwear, branded to order.",
+  },
+  {
+    category: "Footwear",
+    image: whiteLabelPhoto("footwear"),
+    alt: "A pair of white canvas trainers with a Kazi logo on the side",
+    caption: "Canvas and leather uppers, hand-lasted.",
+  },
 ];
 
-const CATEGORIES = ["All", "Knitwear", "Outerwear", "Denim", "Accessories", "Footwear"];
+const CATEGORIES = ["All", "Knitwear", "Outerwear", "Bottoms", "Accessories", "Footwear"];
 
 export function LookbookPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -70,12 +114,12 @@ export function LookbookPage() {
         <div className="mx-auto columns-1 gap-6 sm:columns-2 lg:columns-3 [&>*]:max-w-full">
           {filtered.map((item) => (
             <figure
-              key={item.category}
-              className={`group relative mb-6 overflow-hidden rounded-sm break-inside-avoid ${item.tall ? "aspect-[3/4]" : "aspect-[4/3]"}`}
+              key={item.image}
+              className="group relative mb-6 aspect-[3/4] overflow-hidden rounded-sm break-inside-avoid"
             >
               <Image
-                src={categoryImage(item.category)}
-                alt={`${item.category} product shot`}
+                src={item.image}
+                alt={item.alt}
                 fill
                 sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover"
