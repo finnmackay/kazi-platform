@@ -1,11 +1,12 @@
-import { Hero } from "@/components/Hero";
-import { StatementSection } from "@/components/StatementSection";
+import { HomeHero } from "@/components/home/HomeHero";
+import { VideoPanel } from "@/components/home/VideoPanel";
+import { ChipsStatement } from "@/components/home/ChipsStatement";
+import { ProcessRows } from "@/components/home/ProcessRows";
+import { RangeGrid } from "@/components/home/RangeGrid";
+import { AudienceSplit } from "@/components/home/AudienceSplit";
 import { BrandsSection } from "@/components/BrandsSection";
-import { CraftedBySection } from "@/components/CraftedBySection";
-import { FaqSection } from "@/components/FaqSection";
-import { DesignSection } from "@/components/DesignSection";
-import { ProcessSection } from "@/components/ProcessSection";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { FaqSection } from "@/components/FaqSection";
 import { QuoteRequestSection } from "@/components/QuoteRequestSection";
 import { pageMetadata } from "@/lib/seo";
 
@@ -16,14 +17,15 @@ export function generateMetadata() {
 export default function Home() {
   return (
     <>
-      <Hero />
-      <BrandsSection />
-      <CraftedBySection />
-      <StatementSection />
-      <ProcessSection />
-      <FaqSection />
-      <DesignSection />
+      <HomeHero />
+      <VideoPanel />
+      <ChipsStatement />
+      <ProcessRows />
+      <RangeGrid />
+      <BrandsSection tone="light" />
+      <AudienceSplit />
       <ReviewsSection />
+      <FaqSection />
       <QuoteRequestSection />
     </>
   );

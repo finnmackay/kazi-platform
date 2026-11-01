@@ -17,12 +17,14 @@ const BRANDS = [
   { name: "Samsung", file: "samsung.svg", scale: 0.85 },
 ];
 
-function BrandLogo({ name, file, scale }) {
+function BrandLogo({ name, file, scale, light }) {
   return (
     <div
       role="img"
       aria-label={name}
-      className="h-9 w-28 shrink-0 bg-bone opacity-70 transition-opacity duration-200 hover:opacity-100 md:h-11 md:w-36"
+      className={`h-9 w-28 shrink-0 transition-opacity duration-200 hover:opacity-100 md:h-11 md:w-36 ${
+        light ? "bg-pine opacity-55" : "bg-bone opacity-70"
+      }`}
       style={{
         maskImage: `url(/logos/${file})`,
         WebkitMaskImage: `url(/logos/${file})`,
@@ -38,13 +40,23 @@ function BrandLogo({ name, file, scale }) {
   );
 }
 
-export function BrandsSection() {
+// `tone="light"` is the same strip on a white page (dark logos); the default is the original
+// pine band with light logos, which also tells the nav to switch to its dark look beneath it.
+export function BrandsSection({ tone = "dark" }) {
+  const light = tone === "light";
+
   return (
-    <section id="brands" data-nav-theme="dark" className="bg-pine px-6 py-20 md:px-8 md:py-24">
+    <section
+      id="brands"
+      data-nav-theme={light ? undefined : "dark"}
+      className={light ? "bg-white px-6 pb-20 pt-4 md:px-8 md:pb-28 md:pt-8" : "bg-pine px-6 py-20 md:px-8 md:py-24"}
+    >
       <div className="mx-auto w-full max-w-[1100px]">
         <Reveal
           as="h2"
-          className="m-0 text-center font-body text-xs uppercase tracking-[0.18em] text-bone/70"
+          className={`m-0 text-center font-body text-xs uppercase tracking-[0.18em] ${
+            light ? "text-pine-soft" : "text-bone/70"
+          }`}
         >
           Brands We Have Worked With
         </Reveal>
@@ -53,7 +65,7 @@ export function BrandsSection() {
           className="mt-12 grid grid-cols-2 items-center justify-items-center gap-x-10 gap-y-10 sm:grid-cols-3 md:mt-14 md:grid-cols-5 md:gap-x-12 md:gap-y-12"
         >
           {BRANDS.map((brand) => (
-            <BrandLogo key={brand.file} {...brand} />
+            <BrandLogo key={brand.file} {...brand} light={light} />
           ))}
         </Reveal>
       </div>

@@ -10,7 +10,9 @@ import { SITE_PHONE, SITE_PHONE_DIGITS } from "@/lib/site";
 
 const LINKS = [
   { label: "Design", href: "/atelier" },
+  { label: "Collections", href: "/collections" },
   { label: "Services", href: "/heritage" },
+  { label: "Pricing", href: "/pricing" },
 ];
 
 // Shown only in the mobile hamburger menu, not the desktop nav.
@@ -18,6 +20,10 @@ const MOBILE_ONLY_LINKS = [{ label: "Video Editing", href: "/video-editing" }];
 const MOBILE_LINKS = [...LINKS, ...MOBILE_ONLY_LINKS];
 
 const FOCUSABLE_SELECTOR = "a[href], button:not([disabled])";
+
+// How long the mobile menu panel stays mounted after it closes, so its exit animation
+// (menu-out, 250ms in globals.css) can finish before it is removed.
+const MENU_EXIT_MS = 280;
 
 function BagIcon({ size }) {
   return (
@@ -41,6 +47,11 @@ export function Nav() {
   // sitting right under the nav and flip it to match instead of leaving a hard edge.
   const [dark, setDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  // The panel stays mounted for a moment after the menu closes so its exit animation can play
+  // (an unmounted element can't animate). `menuOpen` is the real open/closed state; this is only
+  // "is the panel still in the page".
+  const [menuVisible, setMenuVisible] = useState(false);
+  if (menuOpen && !menuVisible) setMenuVisible(true);
   // Close the menu on any navigation, including browser back/forward, which the links' own
   // onClick handlers never see.
   const [menuPath, setMenuPath] = useState(pathname);
@@ -104,6 +115,15 @@ export function Nav() {
     };
   }, [menuOpen, lenis]);
 
+  // Remove the panel once its exit animation has had time to finish. With reduced motion there
+  // is no animation, so it goes straight away. Reopening the menu cancels the removal.
+  useEffect(() => {
+    if (menuOpen || !menuVisible) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const timer = setTimeout(() => setMenuVisible(false), reduced ? 0 : MENU_EXIT_MS);
+    return () => clearTimeout(timer);
+  }, [menuOpen, menuVisible]);
+
   useEffect(() => {
     function onScroll() {
       const scrollY = window.scrollY;
@@ -139,8 +159,9 @@ export function Nav() {
   const iconColor = isLight ? "text-pine" : "text-bone drop-shadow-[0_1px_6px_rgba(10,16,14,0.45)]";
   const accountIconColor = isLight ? "text-pine" : "text-white drop-shadow-[0_1px_6px_rgba(10,16,14,0.45)]";
   // The open menu has to cover the cookie banner (z-[60]) but stay under the bag (z-[70]),
-  // which can be opened from inside the menu.
-  const layer = menuOpen ? "z-[65]" : "z-50";
+  // which can be opened from inside the menu. It keeps that layer while it animates out too,
+  // so it doesn't dip beneath the banner mid-fade.
+  const layer = menuVisible ? "z-[65]" : "z-50";
 
   return (
     <header
@@ -153,17 +174,6 @@ export function Nav() {
             : ""
       }`}
     >
-      {!solid && (
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            height: "calc(var(--nav-height) + 56px)",
-            background:
-              "linear-gradient(rgba(10,16,14,0.32) 0%, rgba(10,16,14,0.14) 55%, rgba(10,16,14,0) 100%)",
-          }}
-        />
-      )}
-
       <div className="mx-auto grid h-full max-w-[1440px] grid-cols-[auto_1fr] items-center px-6 md:grid-cols-[1fr_auto_1fr] md:px-8">
         <nav aria-label="Primary" className="col-start-1 hidden gap-7 md:flex">
           {LINKS.map((link) => (
@@ -197,13 +207,18 @@ export function Nav() {
         />
 
         <div className="col-start-2 flex items-center justify-self-end gap-4 md:col-start-3">
-          {scrolled && !menuOpen && (
+          {/* Over the homepage hero (the only place the bar is transparent) the button is the same
+              green as the one in the headline block, with a faint light edge so it reads against
+              the sky; everywhere else it keeps its pine / outlined looks. */}
+          {!menuOpen && (
             <Link
               href="/quote"
               className={`inline-flex h-10 items-center whitespace-nowrap rounded-sm border px-5 font-body text-[0.9rem] font-semibold hover:-translate-y-px ${
-                isLight
-                  ? "btn-gradient border-transparent text-bone shadow-[0_2px_12px_rgba(0,0,0,0.18)]"
-                  : "border-white/30 bg-transparent text-white transition-all duration-200 hover:bg-white hover:text-pine"
+                !scrolled
+                  ? "btn-gradient border-white/25 text-bone shadow-[0_6px_18px_-6px_rgba(2,18,50,0.65)]"
+                  : isLight
+                    ? "btn-gradient border-transparent text-bone shadow-[0_2px_12px_rgba(0,0,0,0.18)]"
+                    : "border-white/30 bg-transparent text-white transition-all duration-200 hover:bg-white hover:text-pine"
               }`}
             >
               Get a Quote
@@ -255,10 +270,12 @@ export function Nav() {
         </div>
       </div>
 
-      {menuOpen && (
+      {menuVisible && (
         <div
           id="mobile-menu"
-          className="fixed inset-x-0 top-[var(--nav-height)] bottom-0 flex flex-col overflow-y-auto overscroll-contain bg-bone px-6 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] motion-safe:animate-menu-in md:hidden"
+          className={`fixed inset-x-0 top-[var(--nav-height)] bottom-0 flex flex-col overflow-y-auto overscroll-contain bg-bone px-6 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] md:hidden ${
+            menuOpen ? "motion-safe:animate-menu-in" : "pointer-events-none motion-safe:animate-menu-out"
+          }`}
         >
           <nav aria-label="Menu">
             <ul className="m-0 list-none p-0">
@@ -267,19 +284,18 @@ export function Nav() {
                 return (
                   <li
                     key={link.label}
-                    className="border-b border-pine/10 motion-safe:animate-menu-item-in"
-                    style={{ animationDelay: `${60 + index * 60}ms` }}
+                    className={`border-b border-pine/10 ${
+                      menuOpen ? "motion-safe:animate-menu-item-in" : "motion-safe:animate-menu-item-out"
+                    }`}
+                    style={{ animationDelay: menuOpen ? `${60 + index * 60}ms` : "0ms" }}
                   >
                     <Link
                       ref={index === 0 ? firstMenuLinkRef : undefined}
                       href={link.href}
                       aria-current={current ? "page" : undefined}
                       onClick={() => setMenuOpen(false)}
-                      className="flex items-start gap-4 py-5 text-pine"
+                      className="flex items-start py-5 text-pine"
                     >
-                      <span aria-hidden="true" className="w-5 shrink-0 pt-1 font-body text-xs tabular-nums text-moss">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
                       <span className={`font-display text-[2.5rem] leading-none ${current ? "italic" : ""}`}>
                         {link.label}
                       </span>
@@ -291,8 +307,10 @@ export function Nav() {
           </nav>
 
           <div
-            className="mt-auto flex flex-col gap-7 pt-10 motion-safe:animate-menu-item-in"
-            style={{ animationDelay: `${60 + MOBILE_LINKS.length * 60}ms` }}
+            className={`mt-auto flex flex-col gap-7 pt-10 ${
+              menuOpen ? "motion-safe:animate-menu-item-in" : "motion-safe:animate-menu-item-out"
+            }`}
+            style={{ animationDelay: menuOpen ? `${60 + MOBILE_LINKS.length * 60}ms` : "0ms" }}
           >
             <Link
               href="/quote"

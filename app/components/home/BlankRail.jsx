@@ -1,0 +1,302 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react";
+import { getProductBySlug, products } from "@/lib/products";
+import { priceLine } from "@/components/home/catalogue";
+
+// The white-label picker at the foot of the hero. MOQs and colourways come from the catalogue
+// (lib/products.js) so they can't drift from /collections; the two blank garments deep-link
+// into the Atelier with the chosen colour (?garment=&colour=, see AtelierPage). Whether prices
+// are printed is decided in catalogue.js.
+
+const WHITE = { name: "White", hex: "#FFFFFF" };
+
+// A white-label blank starts white; the rest of the colourways are the product's own. Every
+// hex here is in the Atelier's palette, so the deep link lands on a real, selectable colour.
+function swatchesFor(product) {
+  return [WHITE, ...product.colors.filter((c) => c.hex.toUpperCase() !== WHITE.hex)].slice(0, 5);
+}
+
+const tee = getProductBySlug("organic-crew-tee");
+const hoodie = getProductBySlug("essential-hoodie");
+
+const GARMENT_CARDS = [
+  {
+    garment: "t-shirt",
+    title: "Tees",
+    product: tee,
+    swatches: swatchesFor(tee),
+    image: "/images/home/blank-tee.webp",
+    width: 640,
+    height: 498,
+  },
+  {
+    garment: "hoodie",
+    title: "Hoodies",
+    product: hoodie,
+    swatches: swatchesFor(hoodie),
+    image: "/images/home/blank-hoodie.webp",
+    width: 700,
+    height: 452,
+  },
+];
+
+// The tee and hoodie have their own live cards above, so the two picture cards are Pants and
+// Totes; "See every blank" covers the rest of the range. Each shows its product's own white-label
+// photo (lib/products.js): a 3:4 portrait shown here as a 5:4 crop, so `position` picks the band of
+// the photo that holds the logo.
+const PHOTO_CARDS = [
+  { title: "Pants", product: getProductBySlug("jogger-pants"), position: "50% 38%" },
+  { title: "Totes", product: getProductBySlug("canvas-tote"), position: "50% 52%" },
+];
+
+// The title link is stretched over the whole card, so a keyboard-focused card gets the ring
+// (the link's own outline would only wrap the title text). A white ring with a pine one outside
+// it, so it shows against both the dark sky and the bright snow that can sit behind the cards.
+const focusRing = "has-[a:focus-visible]:shadow-[0_0_0_3px_#fff,0_0_0_6px_#1b3a2b]";
+
+const cardShell = `group relative flex flex-col overflow-hidden rounded-[1.25rem] bg-bone shadow-[0_22px_44px_-16px_rgba(2,24,90,0.6)] ring-1 ring-white/50 transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_28px_52px_-16px_rgba(2,24,90,0.7)] motion-safe:animate-rise ${focusRing}`;
+
+// Below xl the cards are a swipeable rail at a fixed width (five across would be ~130px each
+// on a tablet and the titles collide with the arrows); from xl they share the row as a grid.
+const mobileSlot = "w-[64vw] max-w-[15.5rem] shrink-0 snap-start xl:w-auto xl:max-w-none";
+
+function ArrowChip() {
+  return (
+    <span
+      aria-hidden="true"
+      className="grid size-9 shrink-0 place-items-center rounded-full bg-pine text-bone transition-colors duration-200 group-hover:bg-moss-deep"
+    >
+      <ArrowUpRight size={16} weight="bold" />
+    </span>
+  );
+}
+
+function CardText({ title, href, meta, srSuffix }) {
+  return (
+    <div className="flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <h3 className="m-0 font-display text-[1.375rem] leading-none text-pine">
+          <Link href={href} className="after:absolute after:inset-0 after:content-['']">
+            {title}
+            <span className="sr-only"> — {srSuffix}</span>
+          </Link>
+        </h3>
+        <p className="m-0 mt-1.5 font-body text-[0.8125rem] leading-tight text-pine-soft">{meta}</p>
+      </div>
+      <ArrowChip />
+    </div>
+  );
+}
+
+// Confines a layer to the garment's own silhouette (the cut-outs' alpha channel).
+function silhouette(src) {
+  return {
+    maskImage: `url(${src})`,
+    WebkitMaskImage: `url(${src})`,
+    maskSize: "contain",
+    WebkitMaskSize: "contain",
+    maskRepeat: "no-repeat",
+    WebkitMaskRepeat: "no-repeat",
+    maskPosition: "center",
+    WebkitMaskPosition: "center",
+  };
+}
+
+// The cut-outs are white garments photographed on transparency. To recolour one, the base is
+// flattened to grayscale with a contrast curve that lifts the flat fabric to true white (so a
+// multiply reproduces the picked colour exactly) while keeping the creases, then a layer of the
+// colour — masked to the garment's alpha — is multiplied over it. Same approach as the Atelier's
+// GarmentMockup2D, with smaller assets for the above-the-fold budget and a softer curve (the
+// Atelier's is tuned for big flat mockups; at card size it left dark colours as silhouettes).
+// A faint top-light / bottom-shade gradient inside the silhouette gives dark colours some form,
+// since multiplying a dark colour hides the fabric's own shading.
+function TintedBlank({ src, width, height, colour, label }) {
+  const tinted = colour.toUpperCase() !== WHITE.hex;
+  return (
+    // The bottom strip is reserved for the swatch pill, so a garment never sits under it.
+    <div
+      role="img"
+      aria-label={label}
+      className="absolute inset-x-0 bottom-9 top-0 isolate flex items-center justify-center p-[6%]"
+      style={{ filter: "drop-shadow(0 10px 12px rgba(80,52,12,0.3))" }}
+    >
+      <div className="relative isolate h-full w-full">
+        <Image
+          src={src}
+          alt=""
+          width={width}
+          height={height}
+          sizes="(min-width: 1280px) 20vw, 250px"
+          className="h-full w-full object-contain"
+          style={tinted ? { filter: "grayscale(1) contrast(1.35) brightness(1.1)" } : undefined}
+        />
+        {tinted && (
+          <>
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{ backgroundColor: colour, mixBlendMode: "multiply", ...silhouette(src) }}
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 42%, rgba(0,0,0,0.15) 100%)",
+                ...silhouette(src),
+              }}
+            />
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GarmentCard({ card, index }) {
+  const [colour, setColour] = useState(card.swatches[0]);
+  const href = `/atelier?garment=${card.garment}&colour=${encodeURIComponent(colour.hex)}`;
+
+  return (
+    <li className={`${cardShell} ${mobileSlot}`} style={{ animationDelay: `${index * 90 + 150}ms` }}>
+      <div className="relative aspect-[5/4] bg-[linear-gradient(160deg,#f6eedb,#e2cfa8)]">
+        <TintedBlank
+          src={card.image}
+          width={card.width}
+          height={card.height}
+          colour={colour.hex}
+          label={`Blank ${card.title.toLowerCase()} in ${colour.name.toLowerCase()}`}
+        />
+        <SwatchPill card={card} colour={colour} onPick={setColour} />
+      </div>
+      <div className="flex flex-1 flex-col px-4 pb-3.5 pt-3.5">
+        <CardText
+          title={card.title}
+          href={href}
+          meta={priceLine([card.product])}
+          srSuffix="customise in the Atelier"
+        />
+      </div>
+    </li>
+  );
+}
+
+// Sits on the image, above the card's stretched link, so the swatches stay clickable.
+function SwatchPill({ card, colour, onPick }) {
+  return (
+    <div
+      role="group"
+      aria-label={`${card.title} colour`}
+      className="absolute bottom-2 left-2 z-10 flex items-center rounded-full bg-white/85 px-1 shadow-[0_1px_6px_rgba(60,40,10,0.18)] backdrop-blur-sm"
+    >
+      {card.swatches.map((swatch) => {
+        const selected = swatch.hex === colour.hex;
+        return (
+          <button
+            key={swatch.hex}
+            type="button"
+            onClick={() => onPick(swatch)}
+            aria-label={swatch.name}
+            aria-pressed={selected}
+            className="grid size-6 place-items-center rounded-full"
+          >
+            <span
+              className={`size-3.5 rounded-full border border-pine/25 transition-transform duration-150 ${
+                selected ? "scale-110 ring-2 ring-pine ring-offset-1 ring-offset-white" : ""
+              }`}
+              style={{ backgroundColor: swatch.hex }}
+            />
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function PhotoCard({ card, index }) {
+  return (
+    <li className={`${cardShell} ${mobileSlot}`} style={{ animationDelay: `${index * 90 + 150}ms` }}>
+      <div className="relative aspect-[5/4] overflow-hidden">
+        <Image
+          src={card.product.image}
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 20vw, 250px"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ objectPosition: card.position }}
+        />
+      </div>
+      <div className="flex flex-1 flex-col px-4 pb-3.5 pt-3.5">
+        <CardText
+          title={card.title}
+          href={`/products/${card.product.slug}`}
+          meta={priceLine([card.product])}
+          srSuffix="view the product"
+        />
+      </div>
+    </li>
+  );
+}
+
+function AllBlanksCard({ index }) {
+  return (
+    <li
+      className={`${mobileSlot} btn-gradient group relative flex min-h-[14rem] flex-col justify-between overflow-hidden rounded-[1.25rem] p-5 text-bone shadow-[0_22px_44px_-16px_rgba(2,24,90,0.6)] hover:-translate-y-1 motion-safe:animate-rise ${focusRing}`}
+      style={{ animationDelay: `${index * 90 + 150}ms` }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <p className="m-0 font-body text-xs font-semibold uppercase tracking-[0.16em] text-bone">
+          {products.length} blanks
+        </p>
+        {/* Top-right, because the floating WhatsApp button lives in the bottom-right corner. */}
+        <span
+          aria-hidden="true"
+          className="grid size-9 shrink-0 place-items-center rounded-full bg-bone text-moss-deep transition-transform duration-200 group-hover:translate-x-0.5"
+        >
+          <ArrowRight size={16} weight="bold" />
+        </span>
+      </div>
+      <div>
+        <h3 className="m-0 font-display text-[2rem] leading-[1.02]">
+          <Link href="/collections" className="after:absolute after:inset-0 after:content-['']">
+            See every blank
+          </Link>
+        </h3>
+        <p className="m-0 mt-2 max-w-[19ch] font-body text-[0.8125rem] leading-snug text-bone">
+          Tees, hoodies, vests, pants, aprons, totes and footwear &mdash; all from 50 pieces.
+        </p>
+      </div>
+    </li>
+  );
+}
+
+export function BlankRail() {
+  return (
+    <div className="mx-auto w-full max-w-[1120px]">
+      {/* Dark pills rather than bare text: behind this row the photo can be bright snow. */}
+      <div className="mb-3 flex items-center justify-between gap-4">
+        <h2 className="m-0 rounded-full bg-[#04102a]/60 px-3.5 py-1.5 font-body text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm">
+          Start from a blank
+        </h2>
+        <p className="m-0 hidden rounded-full bg-[#04102a]/60 px-3.5 py-1.5 font-body text-[0.8125rem] text-white backdrop-blur-sm sm:block">
+          Pick one, add your branding &mdash; we do the rest.
+        </p>
+      </div>
+
+      {/* scroll-px keeps the snapped first card inset by the same padding the rail bleeds out of. */}
+      <ul className="-mx-5 m-0 flex snap-x snap-mandatory scroll-px-5 list-none gap-3 overflow-x-auto px-5 pb-3 [scrollbar-width:none] md:-mx-8 md:scroll-px-8 md:px-8 xl:mx-0 xl:grid xl:scroll-px-0 xl:grid-cols-5 xl:overflow-visible xl:px-0 xl:pb-0 [&::-webkit-scrollbar]:hidden">
+        {GARMENT_CARDS.map((card, i) => (
+          <GarmentCard key={card.garment} card={card} index={i} />
+        ))}
+        {PHOTO_CARDS.map((card, i) => (
+          <PhotoCard key={card.title} card={card} index={GARMENT_CARDS.length + i} />
+        ))}
+        <AllBlanksCard index={GARMENT_CARDS.length + PHOTO_CARDS.length} />
+      </ul>
+    </div>
+  );
+}
