@@ -71,7 +71,7 @@ export const SEO_ROUTES = [
     group: "Main pages",
     title: "The Collection",
     description:
-      "Ready-to-order styles across knitwear, outerwear, bottoms, accessories and footwear, built to the same spec as a custom manufacturing run.",
+      "Ready-to-order styles across knitwear, outerwear, bottoms and accessories, built to the same spec as a custom manufacturing run.",
     changeFrequency: "weekly",
     priority: 0.8,
   },
@@ -81,7 +81,7 @@ export const SEO_ROUTES = [
     group: "Main pages",
     title: "Lookbook",
     description:
-      "Fabric, fit and finish by category — knitwear, outerwear, bottoms, accessories and footwear from the Kazi production floor.",
+      "Fabric, fit and finish by category — knitwear, outerwear, bottoms and accessories from the Kazi production floor.",
     changeFrequency: "monthly",
     priority: 0.6,
   },

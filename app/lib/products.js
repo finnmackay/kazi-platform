@@ -14,12 +14,11 @@
 // Every product has its own `image`: a white-label product photo (a blank white product
 // carrying the Kazi logo) in public/images/collections/white-label/ — 3:4 portraits, 1200x1600
 // WebP copies of the originals supplied as "..._2K.jpg" downloads. One product per photo, so no
-// two products share a picture. Footwear is the exception: no photo was supplied for it yet, so
-// the trainer uses a generated illustration (a square image; replace footwear.webp with a 3:4
-// photo and nothing else needs to change). To add a product, drop its photo in that folder and
-// add an entry here.
+// two products share a picture, and a product without a real photo is not listed (the Canvas
+// Trainer was removed for that reason, along with the Footwear category). To add a product,
+// drop its photo in that folder and add an entry here; a new category goes in CATEGORIES too.
 
-export const CATEGORIES = ["Knitwear", "Outerwear", "Bottoms", "Accessories", "Footwear"];
+export const CATEGORIES = ["Knitwear", "Outerwear", "Bottoms", "Accessories"];
 
 export const SIZES = ["S", "M", "L", "XL"];
 
@@ -230,34 +229,6 @@ export const products = [
       "Low-impact dye process",
       "Zero-waste panel cutting",
       "Produced in our Kathmandu workspace",
-    ],
-  },
-  {
-    slug: "canvas-trainer",
-    name: "Canvas Trainer",
-    category: "Footwear",
-    image: whiteLabelPhoto("footwear"),
-    price: "From £14.00 / unit",
-    moq: 50,
-    colors: [
-      { name: "White", hex: "#FFFFFF" },
-      { name: "Black", hex: "#1A1A1A" },
-    ],
-    // No `sizes` — footwear runs on numeric sizing, not the S–XL apparel scale used
-    // elsewhere; an exact size-run gets worked out once a quote conversation starts.
-    description:
-      "A low-profile canvas trainer with a vulcanized rubber sole — hand-lasted, built to be re-soled rather than replaced.",
-    specs: [
-      "Vulcanized rubber sole",
-      "Cotton canvas upper",
-      "Hand-lasted construction",
-      "Reinforced toe cap",
-    ],
-    sustainability: [
-      "Natural rubber sole available",
-      "Undyed canvas option",
-      "Hand-lasted by Kathmandu artisans",
-      "Repairable, re-solable construction",
     ],
   },
 ];

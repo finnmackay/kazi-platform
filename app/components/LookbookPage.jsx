@@ -12,7 +12,6 @@ const outlineButton =
 
 // The white-label photos from public/images/collections/white-label/ (see lib/products.js): all
 // 3:4 portraits, with more than one for a category where there is more than one product shot.
-// Footwear is the exception: no photo was supplied yet, so it uses the generated illustration.
 // Add an entry here when a new photo is dropped into that folder.
 const GALLERY = [
   {
@@ -57,15 +56,9 @@ const GALLERY = [
     alt: "A white apron with a Kazi logo on the bib, hanging on a wooden peg",
     caption: "Aprons and workwear, branded to order.",
   },
-  {
-    category: "Footwear",
-    image: whiteLabelPhoto("footwear"),
-    alt: "A pair of white canvas trainers with a Kazi logo on the side",
-    caption: "Canvas and leather uppers, hand-lasted.",
-  },
 ];
 
-const CATEGORIES = ["All", "Knitwear", "Outerwear", "Bottoms", "Accessories", "Footwear"];
+const CATEGORIES = ["All", "Knitwear", "Outerwear", "Bottoms", "Accessories"];
 
 export function LookbookPage() {
   const [activeCategory, setActiveCategory] = useState("All");

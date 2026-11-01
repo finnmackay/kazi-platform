@@ -23,7 +23,7 @@ Kazi Manufacturing is a garment manufacturer based in Kathmandu, Nepal, serving 
 
 ## Browse
 
-- [The Collection](https://kazimanufacturing.com/collections): Illustrative ready-to-order styles across knitwear, outerwear, bottoms, accessories and footwear — a sample of what's possible, not a live-priced storefront; use the Quote page for actual pricing.
+- [The Collection](https://kazimanufacturing.com/collections): Illustrative ready-to-order styles across knitwear, outerwear, bottoms and accessories — a sample of what's possible, not a live-priced storefront; use the Quote page for actual pricing.
 - [Lookbook](https://kazimanufacturing.com/lookbook): Fabric, fit and finish by category from the production floor.
 - [Stories](https://kazimanufacturing.com/stories): Notes on process, sourcing and behind-the-scenes updates.
 

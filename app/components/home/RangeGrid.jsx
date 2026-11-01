@@ -9,10 +9,9 @@ import { priceLine } from "@/components/home/catalogue";
 // each with its title, one line of detail and an arrow underneath (not over the picture: the
 // photos are light, and a dark overlay would smear the product).
 //
-// One tile per product that has a real white-label photo (lib/products.js: 3:4 portraits, so
-// nothing is cropped), each linking to its own product page, plus a closing tile for the full
-// collection. The trainer is left out here on purpose: its picture is an illustration rather than
-// a photo, so it only appears on the Collections page until a photo is supplied.
+// One tile per product in the catalogue (lib/products.js: each has a real white-label photo, 3:4
+// portraits, so nothing is cropped), each linking to its own product page, plus a closing tile
+// for the full collection.
 const TILES = [
   { slug: "organic-crew-tee", title: "T-shirts" },
   { slug: "long-sleeve-tee", title: "Long sleeves" },

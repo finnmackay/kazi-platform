@@ -267,7 +267,7 @@ function AllBlanksCard({ index }) {
           </Link>
         </h3>
         <p className="m-0 mt-2 max-w-[19ch] font-body text-[0.8125rem] leading-snug text-bone">
-          Tees, hoodies, vests, pants, aprons, totes and footwear &mdash; all from 50 pieces.
+          Tees, hoodies, vests, pants, aprons and totes &mdash; all from 50 pieces.
         </p>
       </div>
     </li>
