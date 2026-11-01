@@ -23,28 +23,26 @@ function swatchesFor(product) {
 const tee = getProductBySlug("organic-crew-tee");
 const hoodie = getProductBySlug("essential-hoodie");
 
+// Each shows its product's white-label photo from /collections, cropped like the picture cards
+// below. The swatches only pick the colour the Atelier opens with; the photo is always the white blank.
 const GARMENT_CARDS = [
   {
     garment: "t-shirt",
     title: "Tees",
     product: tee,
     swatches: swatchesFor(tee),
-    image: "/images/home/blank-tee.webp",
-    width: 640,
-    height: 498,
+    position: "50% 25%",
   },
   {
     garment: "hoodie",
     title: "Hoodies",
     product: hoodie,
     swatches: swatchesFor(hoodie),
-    image: "/images/home/blank-hoodie.webp",
-    width: 700,
-    height: 452,
+    position: "50% 28%",
   },
 ];
 
-// The tee and hoodie have their own live cards above, so the two picture cards are Pants and
+// The tee and hoodie have their own cards above, so the two picture cards are Pants and
 // Totes; "See every blank" covers the rest of the range. Each shows its product's own white-label
 // photo (lib/products.js): a 3:4 portrait shown here as a 5:4 crop, so `position` picks the band of
 // the photo that holds the logo.
@@ -92,84 +90,20 @@ function CardText({ title, href, meta, srSuffix }) {
   );
 }
 
-// Confines a layer to the garment's own silhouette (the cut-outs' alpha channel).
-function silhouette(src) {
-  return {
-    maskImage: `url(${src})`,
-    WebkitMaskImage: `url(${src})`,
-    maskSize: "contain",
-    WebkitMaskSize: "contain",
-    maskRepeat: "no-repeat",
-    WebkitMaskRepeat: "no-repeat",
-    maskPosition: "center",
-    WebkitMaskPosition: "center",
-  };
-}
-
-// The cut-outs are white garments photographed on transparency. To recolour one, the base is
-// flattened to grayscale with a contrast curve that lifts the flat fabric to true white (so a
-// multiply reproduces the picked colour exactly) while keeping the creases, then a layer of the
-// colour — masked to the garment's alpha — is multiplied over it. Same approach as the Atelier's
-// GarmentMockup2D, with smaller assets for the above-the-fold budget and a softer curve (the
-// Atelier's is tuned for big flat mockups; at card size it left dark colours as silhouettes).
-// A faint top-light / bottom-shade gradient inside the silhouette gives dark colours some form,
-// since multiplying a dark colour hides the fabric's own shading.
-function TintedBlank({ src, width, height, colour, label }) {
-  const tinted = colour.toUpperCase() !== WHITE.hex;
-  return (
-    // The bottom strip is reserved for the swatch pill, so a garment never sits under it.
-    <div
-      role="img"
-      aria-label={label}
-      className="absolute inset-x-0 bottom-9 top-0 isolate flex items-center justify-center p-[6%]"
-      style={{ filter: "drop-shadow(0 10px 12px rgba(80,52,12,0.3))" }}
-    >
-      <div className="relative isolate h-full w-full">
-        <Image
-          src={src}
-          alt=""
-          width={width}
-          height={height}
-          sizes="(min-width: 1280px) 20vw, 250px"
-          className="h-full w-full object-contain"
-          style={tinted ? { filter: "grayscale(1) contrast(1.35) brightness(1.1)" } : undefined}
-        />
-        {tinted && (
-          <>
-            <div
-              aria-hidden="true"
-              className="absolute inset-0"
-              style={{ backgroundColor: colour, mixBlendMode: "multiply", ...silhouette(src) }}
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 42%, rgba(0,0,0,0.15) 100%)",
-                ...silhouette(src),
-              }}
-            />
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function GarmentCard({ card, index }) {
   const [colour, setColour] = useState(card.swatches[0]);
   const href = `/atelier?garment=${card.garment}&colour=${encodeURIComponent(colour.hex)}`;
 
   return (
     <li className={`${cardShell} ${mobileSlot}`} style={{ animationDelay: `${index * 90 + 150}ms` }}>
-      <div className="relative aspect-[5/4] bg-[linear-gradient(160deg,#f6eedb,#e2cfa8)]">
-        <TintedBlank
-          src={card.image}
-          width={card.width}
-          height={card.height}
-          colour={colour.hex}
-          label={`Blank ${card.title.toLowerCase()} in ${colour.name.toLowerCase()}`}
+      <div className="relative aspect-[5/4] overflow-hidden">
+        <Image
+          src={card.product.image}
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 20vw, 250px"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ objectPosition: card.position }}
         />
         <SwatchPill card={card} colour={colour} onPick={setColour} />
       </div>
