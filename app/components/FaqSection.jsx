@@ -55,15 +55,21 @@ export function FaqSection() {
                   className="flex w-full items-center justify-between gap-6 py-6 text-left"
                 >
                   <span className="font-display text-lg leading-snug text-pine md:text-xl">{item.q}</span>
-                  <span
+                  {/* A plus that turns into an ×. It is a stroked vector, not two 1px-thin divs: those
+                      are centred with a half-pixel offset, so depending on where a row lands on the
+                      pixel grid (window width, display scaling) one bar could render faint or vanish. */}
+                  <svg
                     aria-hidden="true"
-                    className={`relative h-5 w-5 shrink-0 transition-transform duration-300 ${
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className={`h-5 w-5 shrink-0 text-moss transition-transform duration-300 ${
                       isOpen ? "rotate-45" : ""
                     }`}
                   >
-                    <span className="absolute left-1/2 top-1/2 h-px w-5 -translate-x-1/2 -translate-y-1/2 bg-moss" />
-                    <span className="absolute left-1/2 top-1/2 h-5 w-px -translate-x-1/2 -translate-y-1/2 bg-moss" />
-                  </span>
+                    <path d="M10 1.5v17M1.5 10h17" />
+                  </svg>
                 </button>
                 <div
                   className="grid transition-[grid-template-rows] duration-300 ease-out"
