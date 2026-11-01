@@ -22,14 +22,19 @@ export default async function RootLayout({ children }) {
   const site = resolveSiteSettings(await getSeoSettings());
 
   return (
-    <html lang="en-GB" className="h-full" suppressHydrationWarning>
+    // <html> must NOT have a fixed height (no `h-full`). Lenis (SmoothScroll.jsx) learns the page's
+    // height by watching <html>'s size; with `height: 100%` that size never changes, so after a
+    // client-side navigation from a shorter page (e.g. Collections -> Home) it kept the old,
+    // shorter limit and the page "stuck" part-way down. <body> fills the screen on short pages
+    // with min-h-dvh instead.
+    <html lang="en-GB" suppressHydrationWarning>
       <head>
         {/* Flags that JS is running before first paint, so Reveal's hidden-until-scrolled
             state only applies when something will actually reveal it again (see globals.css). */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <JsonLd data={siteJsonLd(site)} />
       </head>
-      <body id="top" className="flex min-h-full flex-col">
+      <body id="top" className="flex min-h-dvh flex-col">
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
