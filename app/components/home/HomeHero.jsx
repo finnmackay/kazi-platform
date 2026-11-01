@@ -42,7 +42,7 @@ export function HomeHero() {
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/quote"
-              className="btn-gradient inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-md border border-white/25 px-6 font-body text-base font-semibold text-bone shadow-[0_10px_28px_-8px_rgba(2,18,50,0.75)] hover:-translate-y-0.5 active:translate-y-0"
+              className="btn-solid inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-md border border-white/25 px-6 font-body text-base font-semibold text-bone shadow-[0_10px_28px_-8px_rgba(2,18,50,0.75)] hover:-translate-y-0.5 active:translate-y-0"
             >
               Get a quote
               <ArrowRight size={18} weight="bold" aria-hidden="true" />

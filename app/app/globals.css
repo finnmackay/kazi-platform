@@ -90,6 +90,22 @@
   }
 }
 
+/* Flat counterpart to btn-gradient: one solid dark green (#24583a, the gradient's middle stop)
+   that darkens to pine on hover and focus. Bone text stays above 4.5:1 on both. */
+@utility btn-solid {
+  background-color: #24583a;
+  transition:
+    background-color 200ms ease,
+    box-shadow 200ms ease,
+    translate 200ms ease,
+    scale 200ms ease;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background-color: var(--color-pine);
+  }
+}
+
 :root {
   --nav-height: 88px;
   --stripe-height: 0px;

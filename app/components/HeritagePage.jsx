@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 
 const filledButton =
-  "inline-flex h-11 items-center justify-center rounded-sm btn-gradient px-6 font-body text-sm font-semibold tracking-wide text-bone";
+  "inline-flex h-11 items-center justify-center rounded-sm btn-solid px-6 font-body text-sm font-semibold tracking-wide text-bone";
 const outlineButton =
   "inline-flex h-11 items-center justify-center rounded-sm border border-pine px-6 font-body text-sm font-semibold tracking-wide text-pine transition-colors hover:bg-pine hover:text-bone";
 const filledButtonSmall =

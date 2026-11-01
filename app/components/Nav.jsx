@@ -215,9 +215,9 @@ export function Nav() {
               href="/quote"
               className={`inline-flex h-10 items-center whitespace-nowrap rounded-sm border px-5 font-body text-[0.9rem] font-semibold hover:-translate-y-px ${
                 !scrolled
-                  ? "btn-gradient border-white/25 text-bone shadow-[0_6px_18px_-6px_rgba(2,18,50,0.65)]"
+                  ? "btn-solid border-white/25 text-bone shadow-[0_6px_18px_-6px_rgba(2,18,50,0.65)]"
                   : isLight
-                    ? "btn-gradient border-transparent text-bone shadow-[0_2px_12px_rgba(0,0,0,0.18)]"
+                    ? "btn-solid border-transparent text-bone shadow-[0_2px_12px_rgba(0,0,0,0.18)]"
                     : "border-white/30 bg-transparent text-white transition-all duration-200 hover:bg-white hover:text-pine"
               }`}
             >
