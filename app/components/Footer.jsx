@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { CaretUp } from "@phosphor-icons/react/dist/ssr";
+import { CaretUp, FacebookLogo, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/Reveal";
-import { SITE_PHONE, SITE_PHONE_DIGITS } from "@/lib/site";
+import { SITE_FACEBOOK_URL, SITE_INSTAGRAM_URL, SITE_PHONE, SITE_PHONE_DIGITS } from "@/lib/site";
 
 const EXPLORE_LINKS = [
   { href: "/atelier", label: "Design" },
@@ -17,6 +17,11 @@ const LEGAL_LINKS = [
   { href: "/terms", label: "Terms" },
   { href: "/cookies", label: "Cookies" },
   { href: "/accessibility", label: "Accessibility" },
+];
+
+const SOCIAL_LINKS = [
+  { href: SITE_INSTAGRAM_URL, label: "Kazi Manufacturing on Instagram", Icon: InstagramLogo },
+  { href: SITE_FACEBOOK_URL, label: "Kazi Manufacturing on Facebook", Icon: FacebookLogo },
 ];
 
 const linkClass =
@@ -67,6 +72,21 @@ export function Footer() {
             <p className="m-0 max-w-[26ch] font-body text-[0.9rem] leading-[1.5] text-bone/60">
               Custom apparel manufacturing for UK brands, crafted in Kathmandu.
             </p>
+            <ul aria-label="Social media" className="m-0 flex list-none items-center gap-3 p-0">
+              {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="grid size-10 place-items-center rounded-full border border-bone/20 text-bone/80 transition-colors duration-200 hover:border-bone/50 hover:bg-bone/10 hover:text-bone focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone"
+                  >
+                    <Icon size={20} aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <nav aria-label="Footer" className="flex flex-col gap-3.5">
