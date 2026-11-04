@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CaretUp, FacebookLogo, InstagramLogo } from "@phosphor-icons/react/dist/ssr";
-import { Reveal } from "@/components/Reveal";
 import { SITE_FACEBOOK_URL, SITE_INSTAGRAM_URL, SITE_PHONE, SITE_PHONE_DIGITS } from "@/lib/site";
 
 const EXPLORE_LINKS = [
@@ -20,8 +19,8 @@ const LEGAL_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { href: SITE_INSTAGRAM_URL, label: "Kazi Manufacturing on Instagram", Icon: InstagramLogo },
-  { href: SITE_FACEBOOK_URL, label: "Kazi Manufacturing on Facebook", Icon: FacebookLogo },
+  { href: SITE_INSTAGRAM_URL, label: "Instagram", Icon: InstagramLogo },
+  { href: SITE_FACEBOOK_URL, label: "Facebook", Icon: FacebookLogo },
 ];
 
 const linkClass =
@@ -40,19 +39,7 @@ export function Footer() {
   return (
     <footer data-nav-theme="dark" className="bg-pine py-14 pb-8 md:py-20">
       <div className="mx-auto max-w-[1440px] px-6 md:px-8">
-        <Reveal className="flex flex-col gap-7 border-b border-bone/10 pb-10 sm:flex-row sm:items-end sm:justify-between md:pb-14">
-          <h2 className="m-0 max-w-md text-balance font-display text-[1.9rem] leading-[1.2] text-bone md:text-4xl">
-            Let&rsquo;s build your next collection.
-          </h2>
-          <Link
-            href="/quote"
-            className="inline-flex h-12 w-fit shrink-0 items-center whitespace-nowrap rounded-sm bg-bone px-7 font-body text-sm font-semibold text-pine shadow-[0_4px_20px_rgba(0,0,0,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-white"
-          >
-            Get a Quote
-          </Link>
-        </Reveal>
-
-        <div className="grid grid-cols-1 gap-10 border-b border-bone/10 py-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-10 md:py-14">
+        <div className="grid grid-cols-1 gap-10 border-b border-bone/10 pb-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-10 md:pb-14">
           <div className="flex flex-col gap-5">
             <Link
               href="/"
@@ -69,24 +56,6 @@ export function Footer() {
                 WebkitMaskRepeat: "no-repeat",
               }}
             />
-            <p className="m-0 max-w-[26ch] font-body text-[0.9rem] leading-[1.5] text-bone/60">
-              Custom apparel manufacturing for UK brands, crafted in Kathmandu.
-            </p>
-            <ul aria-label="Social media" className="m-0 flex list-none items-center gap-3 p-0">
-              {SOCIAL_LINKS.map(({ href, label, Icon }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="grid size-10 place-items-center rounded-full border border-bone/20 text-bone/80 transition-colors duration-200 hover:border-bone/50 hover:bg-bone/10 hover:text-bone focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone"
-                  >
-                    <Icon size={20} aria-hidden="true" />
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <nav aria-label="Footer" className="flex flex-col gap-3.5">
@@ -106,6 +75,18 @@ export function Footer() {
             <a href={`tel:+${SITE_PHONE_DIGITS}`} className={linkClass}>
               {SITE_PHONE}
             </a>
+            {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${linkClass} inline-flex items-center gap-2`}
+              >
+                <Icon size={18} aria-hidden="true" />
+                {label}
+              </a>
+            ))}
           </div>
 
           <div className="flex flex-col gap-3.5">
