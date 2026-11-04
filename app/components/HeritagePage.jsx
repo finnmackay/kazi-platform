@@ -13,7 +13,6 @@ const filledButtonSmall =
 // Confirm each service, spec and lead time against reality before this ships.
 const SERVICES = [
   {
-    code: "SVC-01",
     title: "Custom Manufacturing",
     slug: "custom-manufacturing",
     ctaLabel: "Get a Custom Manufacturing quote",
@@ -23,7 +22,6 @@ const SERVICES = [
     specs: ["Min. 50 units", "All fabric weights", "Organic cotton available on request", "Lead time 6–10 weeks"],
   },
   {
-    code: "SVC-02",
     title: "Direct-to-Garment (DTG)",
     slug: "dtg",
     ctaLabel: "Get a DTG quote",
@@ -33,7 +31,6 @@ const SERVICES = [
     specs: ["No minimum per design", "Full colour + spot colours", "Soft hand-feel finish", "Wash-tested"],
   },
   {
-    code: "SVC-03",
     title: "Screen Printing",
     slug: "screen-printing",
     ctaLabel: "Get a Screen Printing quote",
@@ -43,7 +40,6 @@ const SERVICES = [
     specs: ["From 50 units/design", "Up to 6 spot colours", "Water-based inks", "Price breaks at volume"],
   },
   {
-    code: "SVC-04",
     title: "Embroidery",
     slug: "embroidery",
     ctaLabel: "Get an Embroidery quote",
@@ -53,7 +49,6 @@ const SERVICES = [
     specs: ["Small and large formats", "Digitising included", "Metallic threads available", "Priced per unit"],
   },
   {
-    code: "SVC-05",
     title: "Direct-to-Film (DTF)",
     slug: "dtf",
     ctaLabel: "Get a DTF quote",
@@ -63,7 +58,6 @@ const SERVICES = [
     specs: ["Works on any fabric", "No minimum order", "Ideal for dark garments", "Edge-to-edge possible"],
   },
   {
-    code: "SVC-06",
     title: "Video Editing",
     slug: "video-editing",
     href: "/video-editing",
@@ -130,16 +124,13 @@ export function HeritagePage() {
         <div className="mx-auto max-w-[1440px] px-6 pt-12 md:px-8 md:pt-16">
           {SERVICES.map((service, index) => (
             <div
-              key={service.code}
+              key={service.slug}
               className={`grid gap-8 py-12 md:grid-cols-2 md:gap-16 md:py-16 ${
                 index > 0 ? "border-t border-pine/15" : ""
               }`}
             >
               <div>
-                <span className="font-body text-xs font-medium tracking-[0.1em] text-moss-deep">
-                  {service.code}
-                </span>
-                <h2 className="mt-2 mb-2 font-display text-2xl text-pine md:text-3xl">
+                <h2 className="mb-2 font-display text-2xl text-pine md:text-3xl">
                   {service.title}
                 </h2>
                 <p className="mb-4 font-body text-pine-soft">{service.tagline}</p>
@@ -178,11 +169,8 @@ export function HeritagePage() {
           </div>
 
           <ol className="grid gap-8 md:grid-cols-5 md:gap-6">
-            {SUPPLY_CHAIN_STEPS.map((step, index) => (
+            {SUPPLY_CHAIN_STEPS.map((step) => (
               <li key={step.label}>
-                <span className="mb-3 block font-body text-sm font-medium tracking-[0.06em] tabular-nums text-moss-deep">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
                 <h3 className="mb-2 font-display text-lg text-pine">{step.label}</h3>
                 <p className="font-body text-sm leading-relaxed text-pine-soft">{step.description}</p>
               </li>

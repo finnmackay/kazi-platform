@@ -102,22 +102,18 @@ const PACKAGES = [
 
 const PROCESS = [
   {
-    step: "01",
     title: "Brief",
     body: "You send footage and a few references. We agree what the deliverables are, what shapes they need to be in and roughly what the thing should feel like.",
   },
   {
-    step: "02",
     title: "First cut",
     body: "You get a watermarked review link. Comments attach to the timecode they refer to, so nobody has to describe where in the video they mean.",
   },
   {
-    step: "03",
     title: "Revisions",
     body: "Two rounds come with every project. We work through your notes and repost to the same link, so earlier versions stay where you left them.",
   },
   {
-    step: "04",
     title: "Delivery",
     body: "Final masters and every export you asked for, sent with the project files. If you move to another editor later, they can pick the work up from there.",
   },
@@ -401,11 +397,8 @@ export function VideoEditingPage() {
           </Reveal>
 
           <div className="grid gap-8 sm:grid-cols-2 md:gap-10 lg:grid-cols-4">
-            {PROCESS.map(({ step, title, body }, index) => (
-              <Reveal key={step} delay={index * 80} className="border-t border-pine/15 pt-5">
-                <span className="mb-3 block font-body text-sm font-medium tabular-nums tracking-[0.12em] text-moss-deep">
-                  {step}
-                </span>
+            {PROCESS.map(({ title, body }, index) => (
+              <Reveal key={title} delay={index * 80} className="border-t border-pine/15 pt-5">
                 <h3 className="m-0 mb-3 font-display text-xl text-pine">{title}</h3>
                 <p className="m-0 font-body text-sm leading-relaxed text-pine-soft">{body}</p>
               </Reveal>

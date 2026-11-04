@@ -59,12 +59,9 @@ export function ProcessRows() {
         </h2>
 
         <ol className="m-0 flex list-none flex-col gap-14 p-0 md:gap-8">
-          {STEPS.map((step, index) => (
+          {STEPS.map((step) => (
             <li key={step.title} className="grid items-center gap-6 md:grid-cols-12 md:gap-8">
               <Reveal className="md:col-span-4 md:pr-6">
-                <span className="mb-3 block font-body text-sm font-medium tabular-nums text-moss-deep">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
                 <h3 className="m-0 font-display text-[clamp(2rem,3.2vw,3rem)] font-normal leading-[1.04] tracking-[-0.02em] text-pine">
                   {step.title}
                 </h3>
