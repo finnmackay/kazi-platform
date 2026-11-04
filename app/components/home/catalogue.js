@@ -8,7 +8,7 @@ const parsePrice = (product) => Number.parseFloat(product.price.replace(/[^\d.]/
 
 /** The short line under a card title for a group of products — minimum order, plus price when enabled. */
 export function priceLine(items) {
-  const moq = Math.min(...items.map((p) => p.moq ?? 50));
+  const moq = Math.min(...items.map((p) => p.moq ?? 100));
   if (!SHOW_PRICES) return `From ${moq} pieces`;
   const amounts = items.map(parsePrice).filter(Number.isFinite);
   return amounts.length ? `From £${Math.min(...amounts).toFixed(2)} · MOQ ${moq}` : `From ${moq} pieces`;

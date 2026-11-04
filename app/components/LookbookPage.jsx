@@ -41,19 +41,19 @@ const GALLERY = [
   {
     category: "Bottoms",
     image: whiteLabelPhoto("pants"),
-    alt: "Cream jogger pants with a Kazi logo on the thigh",
-    caption: "Joggers, pants and denim, cut and finished to hold their shape.",
+    alt: "White sweatpants with a Kazi logo on the hip",
+    caption: "Sweatpants, pants and denim, cut and finished to hold their shape.",
   },
   {
     category: "Accessories",
     image: whiteLabelPhoto("tote"),
-    alt: "A canvas tote bag with a large Kazi logo, hanging on a wooden peg",
+    alt: "A white canvas tote bag with a large Kazi logo on the front",
     caption: "Bags, caps and small leather goods.",
   },
   {
     category: "Accessories",
     image: whiteLabelPhoto("apron"),
-    alt: "A white apron with a Kazi logo on the bib, hanging on a wooden peg",
+    alt: "A white apron with a Kazi logo on the pocket",
     caption: "Aprons and workwear, branded to order.",
   },
 ];

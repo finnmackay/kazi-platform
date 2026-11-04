@@ -35,7 +35,7 @@ export function HomeHero() {
           </h1>
           {/* The longer copy and the second button are left out on phones to keep the block narrow. */}
           <p className="m-0 mt-5 hidden max-w-[34rem] text-pretty font-body text-[1.375rem] leading-snug text-white [text-shadow:0_1px_14px_rgba(2,18,50,0.5)] md:block">
-            Choose a white-label blank, add your branding, and we&rsquo;ll cut, sew and ship it &mdash; from just 50
+            Choose a white-label blank, add your branding, and we&rsquo;ll cut, sew and ship it &mdash; from just 100
             pieces.
           </p>
 

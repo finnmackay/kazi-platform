@@ -76,7 +76,7 @@ export function ChipsStatement() {
           className="m-0 max-w-[26ch] font-display text-[clamp(2rem,4vw,3.75rem)] leading-[1.08] tracking-[-0.02em] text-pine md:max-w-[31ch]"
         >
           Kazi is the Kathmandu workshop behind small and growing clothing brands. Pick a blank, add your label, and
-          we&rsquo;ll make it by hand &mdash; from just 50 pieces.
+          we&rsquo;ll make it by hand &mdash; from just 100 pieces.
         </ScrollReveal>
 
         <div className="mt-10 flex flex-wrap items-center gap-3 md:mt-14">

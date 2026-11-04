@@ -6,7 +6,7 @@ import { Reveal } from "@/components/Reveal";
 const FAQS = [
   {
     q: "What's your minimum order quantity?",
-    a: "We take on small-batch runs starting from 50 units per style, so new and growing brands can order without over-committing to stock.",
+    a: "We take on small-batch runs starting from 100 units per style, so new and growing brands can order without over-committing to stock.",
   },
   {
     q: "Do you make samples before full production?",

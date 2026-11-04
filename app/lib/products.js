@@ -12,8 +12,8 @@
 // real, selectable colour instead of snapping to the nearest one.
 //
 // Every product has its own `image`: a white-label product photo (a blank white product
-// carrying the Kazi logo) in public/images/collections/white-label/ — 3:4 portraits, 1200x1600
-// WebP copies of the originals supplied as "..._2K.jpg" downloads. One product per photo, so no
+// carrying the Kazi logo) in public/images/collections/white-label/ — 3:4 portraits, WebP
+// copies of the supplied photos (WhatsApp images and a "..._2K.jpg"). One product per photo, so no
 // two products share a picture, and a product without a real photo is not listed (the Canvas
 // Trainer was removed for that reason, along with the Footwear category). To add a product,
 // drop its photo in that folder and add an entry here; a new category goes in CATEGORIES too.
@@ -37,7 +37,7 @@ export const products = [
     garmentModel: "t-shirt",
     image: whiteLabelPhoto("tshirt"),
     price: "From £3.20 / unit",
-    moq: 50,
+    moq: 100,
     colors: [
       { name: "Oat", hex: "#E8E0D0" },
       { name: "Stone", hex: "#6B6560" },
@@ -66,7 +66,7 @@ export const products = [
     category: "Knitwear",
     image: whiteLabelPhoto("long-sleeve"),
     price: "From £4.80 / unit",
-    moq: 50,
+    moq: 100,
     colors: [
       { name: "White", hex: "#FFFFFF" },
       { name: "Oat", hex: "#E8E0D0" },
@@ -96,7 +96,7 @@ export const products = [
     garmentModel: "hoodie",
     image: whiteLabelPhoto("hoodie"),
     price: "From £8.50 / unit",
-    moq: 50,
+    moq: 100,
     colors: [
       { name: "Oat", hex: "#E8E0D0" },
       { name: "Stone", hex: "#6B6560" },
@@ -125,7 +125,7 @@ export const products = [
     category: "Outerwear",
     image: whiteLabelPhoto("vest"),
     price: "From £14.50 / unit",
-    moq: 50,
+    moq: 100,
     colors: [
       { name: "Oat", hex: "#E8E0D0" },
       { name: "Stone", hex: "#6B6560" },
@@ -149,12 +149,12 @@ export const products = [
     ],
   },
   {
-    slug: "jogger-pants",
-    name: "Jogger Pants",
+    slug: "sweatpants",
+    name: "Sweatpants",
     category: "Bottoms",
     image: whiteLabelPhoto("pants"),
     price: "From £9.80 / unit",
-    moq: 50,
+    moq: 100,
     colors: [
       { name: "Oat", hex: "#E8E0D0" },
       { name: "Stone", hex: "#6B6560" },
@@ -163,7 +163,7 @@ export const products = [
     ],
     sizes: SIZES,
     description:
-      "Relaxed joggers in brushed loopback fleece — an elasticated drawstring waist, side pockets and ribbed cuffs, with room on the thigh for a print or embroidery.",
+      "Relaxed sweatpants in brushed loopback fleece — an elasticated drawstring waist, side pockets and ribbed cuffs, with room on the thigh for a print or embroidery.",
     specs: [
       "Elasticated waist with flat drawstring",
       "Side pockets",
@@ -183,7 +183,7 @@ export const products = [
     category: "Accessories",
     image: whiteLabelPhoto("tote"),
     price: "From £3.80 / unit",
-    moq: 50,
+    moq: 100,
     colors: [
       { name: "Oat", hex: "#E8E0D0" },
       { name: "Black", hex: "#1A1A1A" },
@@ -209,7 +209,7 @@ export const products = [
     category: "Accessories",
     image: whiteLabelPhoto("apron"),
     price: "From £5.20 / unit",
-    moq: 50,
+    moq: 100,
     colors: [
       { name: "Oat", hex: "#E8E0D0" },
       { name: "Black", hex: "#1A1A1A" },

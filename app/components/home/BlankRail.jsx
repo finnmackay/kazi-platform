@@ -47,7 +47,7 @@ const GARMENT_CARDS = [
 // photo (lib/products.js): a 3:4 portrait shown here as a 5:4 crop, so `position` picks the band of
 // the photo that holds the logo.
 const PHOTO_CARDS = [
-  { title: "Pants", product: getProductBySlug("jogger-pants"), position: "50% 38%" },
+  { title: "Pants", product: getProductBySlug("sweatpants"), position: "50% 38%" },
   { title: "Totes", product: getProductBySlug("canvas-tote"), position: "50% 52%" },
 ];
 
@@ -201,7 +201,7 @@ function AllBlanksCard({ index }) {
           </Link>
         </h3>
         <p className="m-0 mt-2 max-w-[19ch] font-body text-[0.8125rem] leading-snug text-bone">
-          Tees, hoodies, vests, pants, aprons and totes &mdash; all from 50 pieces.
+          Tees, hoodies, vests, pants, aprons and totes &mdash; all from 100 pieces.
         </p>
       </div>
     </li>

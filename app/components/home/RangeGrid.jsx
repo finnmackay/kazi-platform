@@ -17,7 +17,7 @@ const TILES = [
   { slug: "long-sleeve-tee", title: "Long sleeves" },
   { slug: "essential-hoodie", title: "Hoodies" },
   { slug: "utility-vest", title: "Vests" },
-  { slug: "jogger-pants", title: "Pants" },
+  { slug: "sweatpants", title: "Pants" },
   { slug: "work-apron", title: "Aprons" },
   { slug: "canvas-tote", title: "Tote bags" },
 ].map((tile) => ({ ...tile, product: getProductBySlug(tile.slug) }));

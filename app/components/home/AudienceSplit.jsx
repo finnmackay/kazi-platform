@@ -5,13 +5,13 @@ import { Reveal } from "@/components/Reveal";
 
 // Layout reference: the Antigravity "for developers / for organizations" split — two large
 // cards, each with a short label, a headline and one button. Here: new brands vs. established
-// brands. Claims in the copy mirror the site's FAQ (50-unit minimum, private label, the same
+// brands. Claims in the copy mirror the site's FAQ (100-unit minimum, private label, the same
 // tailoring team throughout, a firm date in every quote).
 const AUDIENCES = [
   {
     label: "For new brands",
     title: "Launch your first collection.",
-    body: "Start from 50 pieces per style. Pick a blank, design it in the Atelier, and we guide you from sample to shelf.",
+    body: "Start from 100 pieces per style. Pick a blank, design it in the Atelier, and we guide you from sample to shelf.",
     image: "/images/home/audience-new.webp",
     alt: "A tailor's hands feeding denim through a sewing machine",
     cta: { href: "/atelier", label: "Start designing", primary: true },
