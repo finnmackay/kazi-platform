@@ -25,30 +25,42 @@ const hoodie = getProductBySlug("essential-hoodie");
 
 // Each shows its product's white-label photo from /collections, cropped like the picture cards
 // below. The swatches only pick the colour the Atelier opens with; the photo is always the white blank.
+//
+// Every photo is a 3:4 portrait shown here as a 5:4 crop, so only ~60% of its height is visible:
+// `position` picks that band and is set so the product sits in the middle of it. A product that sits
+// off to one side of its photo is also zoomed (`zoom`) about the edge it leans away from (`origin`),
+// which slides it to the middle of the card. Re-measure these if a photo is replaced.
 const GARMENT_CARDS = [
   {
     garment: "t-shirt",
     title: "Tees",
     product: tee,
     swatches: swatchesFor(tee),
-    position: "50% 25%",
+    position: "50% 44%",
   },
   {
     garment: "hoodie",
     title: "Hoodies",
     product: hoodie,
     swatches: swatchesFor(hoodie),
-    position: "50% 28%",
+    position: "50% 61%",
+    zoom: 1.12,
+    origin: "0% 50%",
   },
 ];
 
 // The tee and hoodie have their own cards above, so the two picture cards are Pants and
 // Totes; "See every blank" covers the rest of the range. Each shows its product's own white-label
-// photo (lib/products.js): a 3:4 portrait shown here as a 5:4 crop, so `position` picks the band of
-// the photo that holds the logo.
+// photo (lib/products.js), framed the same way as the cards above.
 const PHOTO_CARDS = [
-  { title: "Pants", product: getProductBySlug("sweatpants"), position: "50% 38%" },
-  { title: "Totes", product: getProductBySlug("canvas-tote"), position: "50% 52%" },
+  {
+    title: "Pants",
+    product: getProductBySlug("sweatpants"),
+    position: "50% 44%",
+    zoom: 1.12,
+    origin: "1.5% 50%",
+  },
+  { title: "Totes", product: getProductBySlug("canvas-tote"), position: "50% 59%" },
 ];
 
 // The title link is stretched over the whole card, so a keyboard-focused card gets the ring
@@ -90,13 +102,13 @@ function CardText({ title, href, meta, srSuffix }) {
   );
 }
 
-function GarmentCard({ card, index }) {
-  const [colour, setColour] = useState(card.swatches[0]);
-  const href = `/atelier?garment=${card.garment}&colour=${encodeURIComponent(colour.hex)}`;
-
+// The card's picture. The static zoom sits on a wrapper, so the hover zoom on the image itself
+// still scales about the picture's own centre; `children` (the swatch pill) sit above both.
+function CardPhoto({ card, children }) {
+  const { zoom = 1, origin = "50% 50%" } = card;
   return (
-    <li className={`${cardShell} ${mobileSlot}`} style={{ animationDelay: `${index * 90 + 150}ms` }}>
-      <div className="relative aspect-[5/4] overflow-hidden">
+    <div className="relative aspect-[5/4] overflow-hidden">
+      <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: origin }}>
         <Image
           src={card.product.image}
           alt=""
@@ -105,8 +117,21 @@ function GarmentCard({ card, index }) {
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           style={{ objectPosition: card.position }}
         />
-        <SwatchPill card={card} colour={colour} onPick={setColour} />
       </div>
+      {children}
+    </div>
+  );
+}
+
+function GarmentCard({ card, index }) {
+  const [colour, setColour] = useState(card.swatches[0]);
+  const href = `/atelier?garment=${card.garment}&colour=${encodeURIComponent(colour.hex)}`;
+
+  return (
+    <li className={`${cardShell} ${mobileSlot}`} style={{ animationDelay: `${index * 90 + 150}ms` }}>
+      <CardPhoto card={card}>
+        <SwatchPill card={card} colour={colour} onPick={setColour} />
+      </CardPhoto>
       <div className="flex flex-1 flex-col px-4 pb-3.5 pt-3.5">
         <CardText
           title={card.title}
@@ -154,16 +179,7 @@ function SwatchPill({ card, colour, onPick }) {
 function PhotoCard({ card, index }) {
   return (
     <li className={`${cardShell} ${mobileSlot}`} style={{ animationDelay: `${index * 90 + 150}ms` }}>
-      <div className="relative aspect-[5/4] overflow-hidden">
-        <Image
-          src={card.product.image}
-          alt=""
-          fill
-          sizes="(min-width: 1280px) 20vw, 250px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          style={{ objectPosition: card.position }}
-        />
-      </div>
+      <CardPhoto card={card} />
       <div className="flex flex-1 flex-col px-4 pb-3.5 pt-3.5">
         <CardText
           title={card.title}
