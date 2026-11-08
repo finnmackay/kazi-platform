@@ -20,21 +20,35 @@ export function HomeHero() {
         fetchPriority="high"
         className="-z-20 object-cover object-[52%_30%]"
       />
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-black/10 via-black/15 to-black/45" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-black/10 via-black/20 to-black/50" />
 
+      <p className="m-0 mb-5 font-body text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-white/80">
+        Custom merch, made in Kathmandu
+      </p>
       <h1
         id="home-hero-title"
-        className="m-0 max-w-[14ch] text-balance font-display md:max-w-[20ch] text-[2.5rem] font-normal leading-[1.04] tracking-[-0.015em] text-white [text-shadow:0_2px_30px_rgba(2,18,50,0.5)] md:text-[clamp(2.5rem,4vw+1rem,5rem)]"
+        className="m-0 max-w-[14ch] text-balance font-display text-[2.5rem] font-normal leading-[1.04] tracking-[-0.015em] text-white [text-shadow:0_2px_30px_rgba(2,18,50,0.5)] md:max-w-[20ch] md:text-[clamp(2.5rem,4vw+1rem,5rem)]"
       >
-        Your clothing label, made by hand in <em className="italic">Nepal</em>.
+        Design your merch. We make it by hand in <em className="italic">Nepal</em>.
       </h1>
+      <p className="m-0 mt-6 max-w-[38ch] text-balance font-body text-base text-white/90 [text-shadow:0_1px_12px_rgba(2,18,50,0.5)] md:text-lg">
+        Tees, hoodies and totes, printed or embroidered with your artwork, from 100 pieces.
+      </p>
 
-      <Link
-        href="/quote"
-        className="mt-9 inline-flex h-12 items-center whitespace-nowrap rounded-md border border-white/70 bg-white/10 px-8 font-body text-sm font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition-colors duration-200 hover:bg-white hover:text-pine"
-      >
-        Get a quote
-      </Link>
+      <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
+        <Link
+          href="/atelier"
+          className="inline-flex h-12 items-center whitespace-nowrap rounded-md bg-white px-8 font-body text-sm font-semibold uppercase tracking-[0.14em] text-pine transition-colors duration-200 hover:bg-bone"
+        >
+          Start designing
+        </Link>
+        <Link
+          href="/quote"
+          className="inline-flex h-12 items-center whitespace-nowrap rounded-md border border-white/70 bg-white/10 px-8 font-body text-sm font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition-colors duration-200 hover:bg-white hover:text-pine"
+        >
+          Get a quote
+        </Link>
+      </div>
     </section>
   );
 }

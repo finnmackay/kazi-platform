@@ -15,6 +15,8 @@ const TILES = [
 ].map((tile) => ({ ...tile, product: getProductBySlug(tile.slug) }));
 
 function Tile({ tile, index }) {
+  const atelierHref = tile.product.garmentModel ? `/atelier?garment=${tile.product.garmentModel}` : null;
+
   return (
     <Reveal
       as="li"
@@ -31,21 +33,42 @@ function Tile({ tile, index }) {
         />
       </div>
       <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
-        <h2 className="m-0 font-body text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-pine">
+        <h3 className="m-0 font-body text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-pine">
           <Link href={`/products/${tile.slug}`} className="after:absolute after:inset-0 after:content-['']">
             {tile.title}
           </Link>
-        </h2>
+        </h3>
         <p className="m-0 whitespace-nowrap font-body text-[0.8125rem] text-pine-soft">{priceLine([tile.product])}</p>
       </div>
+      {/* Sits above the title's full-tile overlay link so it stays clickable. */}
+      {atelierHref && (
+        <Link
+          href={atelierHref}
+          className="relative z-10 w-fit font-body text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-moss-deep underline decoration-moss-deep/30 underline-offset-4 transition-colors hover:decoration-moss-deep"
+        >
+          Design this
+        </Link>
+      )}
     </Reveal>
   );
 }
 
 export function RangeGrid() {
   return (
-    <section aria-label="Blanks" className="bg-white px-5 py-16 md:px-8 md:py-24">
+    <section aria-labelledby="blanks-title" className="bg-white px-5 py-16 md:px-8 md:py-24">
       <div className="mx-auto max-w-[1440px]">
+        <Reveal className="mb-10 md:mb-16">
+          <p className="m-0 mb-3 font-body text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-pine-soft">
+            Blanks
+          </p>
+          <h2
+            id="blanks-title"
+            className="m-0 max-w-[22ch] text-balance font-display text-[clamp(2rem,3.5vw,3.25rem)] font-normal leading-[1.06] tracking-[-0.02em] text-pine"
+          >
+            Start with a blank, cut and sewn in Kathmandu.
+          </h2>
+        </Reveal>
+
         <ul className="m-0 grid list-none grid-cols-2 gap-x-3 gap-y-8 p-0 md:grid-cols-3 md:gap-x-6 md:gap-y-12">
           {TILES.map((tile, index) => (
             <Tile key={tile.slug} tile={tile} index={index} />
